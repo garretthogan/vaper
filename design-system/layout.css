@@ -36,34 +36,45 @@ body.tui > *:not(script) {
   box-sizing: border-box;
 }
 
-/* Card content (scoped component root) fills the card */
+/* Card content: when card is a custom element (vaper-*), the host is the card; inner content fills it */
 body.tui > *:not(script) [data-component="snake"],
 body.tui > *:not(script) [data-component="todo"],
 body.tui > *:not(script) [data-component="asteroids"],
 body.tui > *:not(script) [data-component="movie-ranking"],
-body.tui > *:not(script) [data-component="three-keyframes"] {
+body.tui > *:not(script) [data-component="three-keyframes"],
+body.tui > *:not(script) [data-component="tic-tac-toe"] {
   width: 100%;
   height: 100%;
   box-sizing: border-box;
   min-height: 0;
 }
 
-/* Tic-tac-toe app: one card with board on top and instructions below */
-body.tui > [data-app="ttt"] {
+/* Tic-tac-toe card: game area fills; board and status/restart laid out inside */
+body.tui > vaper-tic-tac-toe,
+body.tui > [data-component="tic-tac-toe"] {
+  flex-direction: column;
   gap: var(--tui-gap);
 }
-body.tui > [data-app="ttt"] [data-component="board"],
-body.tui > [data-app="ttt"] > *:first-child {
+body.tui > vaper-tic-tac-toe > #game,
+body.tui > [data-component="tic-tac-toe"] > #game {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
   flex: 1;
   min-height: 0;
+  gap: var(--tui-gap);
 }
-body.tui > [data-app="ttt"] [data-component="tic-tac-toe"],
-body.tui > [data-app="ttt"] > *:last-child {
+/* Board wrapper (vaper-board) grows and centers the grid; do not override .board’s display: grid */
+body.tui > vaper-tic-tac-toe [data-component="board"],
+body.tui > [data-component="tic-tac-toe"] [data-component="board"] {
+  flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
+  min-height: 0;
+}
+body.tui > vaper-tic-tac-toe #status,
+body.tui > vaper-tic-tac-toe #restart,
+body.tui > [data-component="tic-tac-toe"] #status,
+body.tui > [data-component="tic-tac-toe"] #restart {
   flex-shrink: 0;
 }

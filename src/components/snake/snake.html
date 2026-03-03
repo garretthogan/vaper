@@ -1,20 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Snake</title>
-  <style>
-    .snake-panel { display: flex; flex-direction: column; align-items: flex-start; }
-    #snake-canvas { display: block; }
-    #snake-status { margin: 0 0 var(--tui-gap-sm); }
-  </style>
-</head>
-<body>
+
   <div class="snake-panel">
     <canvas id="snake-canvas" width="280" height="280" tabindex="0" aria-label="Snake game"></canvas>
     <p id="snake-status" aria-live="polite">Score: 0 — Press arrow keys or click canvas to start</p>
     <button type="button" id="snake-restart">Restart Snake</button>
   </div>
   <!-- inject -->
-</body>
-</html>

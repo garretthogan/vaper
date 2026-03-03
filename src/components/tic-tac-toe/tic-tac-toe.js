@@ -7,9 +7,11 @@ const LINES = [
   let squares = Array(9).fill(null);
   let currentPlayer = 'X';
 
-  const board = document.getElementById('board');
-  const status = document.getElementById('status');
-  const restartBtn = document.getElementById('restart');
+  const root = document.querySelector('[data-component="tic-tac-toe"]');
+  if (!root) return;
+  const board = root.querySelector('#board');
+  const status = root.querySelector('#status');
+  const restartBtn = root.querySelector('#restart');
 
   if (!board || !status || !restartBtn) return;
 

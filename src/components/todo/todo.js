@@ -1,12 +1,24 @@
-const STORAGE_KEY = 'vaper-todo';
-  const listEl = document.getElementById('todo-list');
-  const templateEl = document.getElementById('todo-item-template');
-  const inputEl = document.getElementById('todo-input');
-  const formEl = document.getElementById('todo-form');
-  const addBtn = document.getElementById('todo-add');
-  const clearBtn = document.getElementById('todo-clear-completed');
+import itemMarkup from '../todo-item/todo-item.html';
+
+(function () {
+  const STORAGE_KEY = 'vaper-todo';
+  const listEl = root.querySelector('#todo-list');
+  const inputEl = root.querySelector('#todo-input');
+  const formEl = root.querySelector('#todo-form');
+  const addBtn = root.querySelector('#todo-add');
+  const clearBtn = root.querySelector('#todo-clear-completed');
 
   if (!listEl || !inputEl || !formEl) return;
+
+  let itemTemplateEl = null;
+  function getItemEl() {
+    if (!itemTemplateEl) {
+      const wrap = document.createElement('div');
+      wrap.innerHTML = itemMarkup;
+      itemTemplateEl = wrap.firstElementChild;
+    }
+    return itemTemplateEl;
+  }
 
   let items = [];
 
@@ -33,9 +45,10 @@ const STORAGE_KEY = 'vaper-todo';
       listEl.appendChild(placeholder);
       return;
     }
-    if (!templateEl || !templateEl.content) return;
+    const itemEl = getItemEl();
+    if (!itemEl) return;
     items.forEach((item) => {
-      const li = templateEl.content.cloneNode(true);
+      const li = itemEl.cloneNode(true);
       const checkbox = li.querySelector('.todo-item-checkbox');
       const label = li.querySelector('.todo-item-label');
       const delBtn = li.querySelector('.todo-item-delete');
@@ -109,3 +122,4 @@ const STORAGE_KEY = 'vaper-todo';
 
   load();
   render();
+})();
