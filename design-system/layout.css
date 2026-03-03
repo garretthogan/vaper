@@ -1,0 +1,69 @@
+/* Layout: body as cards container; direct children (except scripts) are cards. No styles injected by the build. */
+
+html {
+  overflow-y: scroll;
+}
+
+body.tui {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* center card group = equal space between container and each page border */
+  align-items: stretch;
+  gap: var(--tui-gap-lg);
+  padding: var(--tui-pad-2);
+  width: 100%;
+  min-height: 100%;
+  box-sizing: border-box;
+}
+
+/* Scripts at bottom of body; take out of flow so only cards participate in layout */
+body.tui > script {
+  position: absolute;
+}
+
+/* Each game/micro app is a card in the list; size responds to page resize */
+body.tui > *:not(script) {
+  flex: 1 1 320px;
+  min-width: 280px;
+  max-width: 480px; /* cap so single card on own row doesn't stretch to full width */
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  padding: var(--tui-pad-2);
+  gap: var(--tui-gap);
+  border: var(--tui-bw) solid var(--tui-line-strong);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* Card content (scoped component root) fills the card */
+body.tui > *:not(script) [data-component="snake"],
+body.tui > *:not(script) [data-component="todo"],
+body.tui > *:not(script) [data-component="asteroids"],
+body.tui > *:not(script) [data-component="movie-ranking"],
+body.tui > *:not(script) [data-component="three-keyframes"] {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  min-height: 0;
+}
+
+/* Tic-tac-toe app: one card with board on top and instructions below */
+body.tui > [data-app="ttt"] {
+  gap: var(--tui-gap);
+}
+body.tui > [data-app="ttt"] [data-component="board"],
+body.tui > [data-app="ttt"] > *:first-child {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  min-height: 0;
+}
+body.tui > [data-app="ttt"] [data-component="tic-tac-toe"],
+body.tui > [data-app="ttt"] > *:last-child {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}

@@ -1,0 +1,49 @@
+.three-keyframes-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--tui-gap);
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.three-keyframes-panel #three-keyframes-title {
+  margin: 0;
+}
+
+#three-keyframes-container {
+  position: relative;
+  width: 280px;
+  height: 280px;
+  overflow: hidden;
+  border: var(--tui-bw) solid var(--tui-line-strong);
+  background: var(--tui-bg);
+  flex-shrink: 0;
+}
+
+#three-keyframes-container canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+#three-keyframes-container canvas:focus {
+  outline: none;
+}
+
+#three-keyframes-container canvas:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 2px var(--tui-cyan);
+}
+
+.three-keyframes-info {
+  margin: 0;
+  font-size: var(--tui-font-size-sm);
+  color: var(--tui-muted);
+}
+
+.three-keyframes-info a {
+  color: var(--tui-cyan);
+}

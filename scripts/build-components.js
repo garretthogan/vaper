@@ -70,29 +70,11 @@ function parseComponentHtml(html) {
   const scriptMatch = bodyInner.match(/<script[^>]*>([\s\S]*?)<\/script>/i);
   const scriptContent = scriptMatch ? scriptMatch[1].trim() : null;
   const bodyMarkup = bodyInner
-    .replace(/<script[^>]*>[\s\S]*?<\/script>/i, '')
+    .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '')
     .trim();
 
   return { headInner, bodyMarkup, scriptContent };
 }
-
-const LAYOUT_CSS = `
-  .games-container { display: flex; flex-wrap: wrap; gap: var(--tui-gap-lg); padding: var(--tui-pad-2); align-items: stretch; }
-  .game-column { width: 320px; min-width: 320px; flex-shrink: 0; display: flex; flex-direction: column; gap: var(--tui-gap); padding: var(--tui-pad-2); border: var(--tui-bw) solid var(--tui-line-strong); min-height: 380px; }
-  .game-column.game-ttt { justify-content: center; align-items: center; }
-  .game-column.game-snake [data-component="snake"] { width: 100%; box-sizing: border-box; min-height: 0; }
-  .game-column.game-snake .snake-panel { border: none; padding: 0; display: flex; flex-direction: column; gap: var(--tui-gap); flex: 1 1 auto; min-height: min-content; width: 100%; overflow: visible; }
-  .game-column.game-snake #snake-canvas { border: var(--tui-bw) solid var(--tui-line-strong); background: var(--tui-bg); flex-shrink: 0; }
-  .game-column.game-snake #snake-status { margin: 0; flex-shrink: 0; }
-  .game-column.game-snake .snake-panel button { flex-shrink: 0; }
-  .game-column.game-todo { justify-content: center; align-items: center; }
-  .game-column.game-todo .todo-panel { border: none; padding: 0; display: flex; flex-direction: column; gap: var(--tui-gap); width: 100%; max-width: 100%; }
-  .game-column.game-asteroids .asteroids-panel { border: none; padding: 0; display: flex; flex-direction: column; gap: var(--tui-gap); flex: 1; min-height: 0; justify-content: center; align-items: center; }
-  .game-column.game-asteroids #asteroids-canvas { border: var(--tui-bw) solid var(--tui-line-strong); background: var(--tui-bg); flex-shrink: 0; }
-  .game-column.game-asteroids #asteroids-status { margin: 0; }
-  .game-column.game-movie-ranking { justify-content: flex-start; align-items: stretch; }
-  .game-column.game-movie-ranking .movie-ranking-panel { border: none; padding: 0; display: flex; flex-direction: column; gap: var(--tui-gap); width: 100%; max-width: 100%; }
-`;
 
 function combineToIndex(componentsDir, indexPath, componentsData = null) {
   let names;
@@ -132,67 +114,45 @@ function combineToIndex(componentsDir, indexPath, componentsData = null) {
     }
   }
 
-  let bodyHtml;
-  const tttNames = ['board', 'tic-tac-toe'];
-  const snakeName = 'snake';
-  const todoName = 'todo';
-  const asteroidsName = 'asteroids';
-  const movieRankingName = 'movie-ranking';
-  const hasTtt = tttNames.every((n) => names.includes(n));
-  const hasSnake = names.includes(snakeName);
-  const hasTodo = names.includes(todoName);
-  const hasAsteroids = names.includes(asteroidsName);
-  const hasMovieRanking = names.includes(movieRankingName);
   const useScope = componentsData && componentsData.length > 0;
-  const part = (name) => useScope ? wrapScope(name, bodyParts[names.indexOf(name)]) : bodyParts[names.indexOf(name)];
+  const tttNames = ['board', 'tic-tac-toe'];
+  const hasTtt = tttNames.every((n) => names.includes(n));
 
-  if (hasTtt && hasSnake && hasTodo && hasAsteroids && hasMovieRanking) {
-    const tttParts = tttNames.map((n) => part(n)).join('\n');
-    bodyHtml =
-      '<div class="games-container">' +
-      '<div class="game-column game-ttt">' + tttParts + '</div>' +
-      '<div class="game-column game-snake">' + part(snakeName) + '</div>' +
-      '<div class="game-column game-todo">' + part(todoName) + '</div>' +
-      '<div class="game-column game-asteroids">' + part(asteroidsName) + '</div>' +
-      '<div class="game-column game-movie-ranking">' + part(movieRankingName) + '</div>' +
-      '</div>\n' +
-      scriptTags.join('\n');
-  } else if (hasTtt && hasSnake && hasTodo && hasAsteroids) {
-    const tttParts = tttNames.map((n) => part(n)).join('\n');
-    bodyHtml =
-      '<div class="games-container">' +
-      '<div class="game-column game-ttt">' + tttParts + '</div>' +
-      '<div class="game-column game-snake">' + part(snakeName) + '</div>' +
-      '<div class="game-column game-todo">' + part(todoName) + '</div>' +
-      '<div class="game-column game-asteroids">' + part(asteroidsName) + '</div>' +
-      '</div>\n' +
-      scriptTags.join('\n');
-  } else if (hasTtt && hasSnake && hasTodo) {
-    const tttParts = tttNames.map((n) => part(n)).join('\n');
-    const snakePart = part(snakeName);
-    const todoPart = part(todoName);
-    bodyHtml =
-      '<div class="games-container">' +
-      '<div class="game-column game-ttt">' + tttParts + '</div>' +
-      '<div class="game-column game-snake">' + snakePart + '</div>' +
-      '<div class="game-column game-todo">' + todoPart + '</div>' +
-      '</div>\n' +
-      scriptTags.join('\n');
-  } else if (hasTtt && hasSnake) {
-    const tttParts = tttNames.map((n) => part(n)).join('\n');
-    const snakePart = part(snakeName);
-    bodyHtml =
-      '<div class="games-container">' +
-      '<div class="game-column game-ttt">' + tttParts + '</div>' +
-      '<div class="game-column game-snake">' + snakePart + '</div>' +
-      '</div>\n' +
-      scriptTags.join('\n');
+  let bodyContent;
+  if (useScope) {
+    const cards = [];
+    for (let i = 0; i < names.length; i++) {
+      const name = names[i];
+      if (name === 'tic-tac-toe' && hasTtt) continue; /* emitted with board as one app */
+      if (name === 'board' && hasTtt) {
+        const boardMarkup = bodyParts[i];
+        const tttMarkup = bodyParts[names.indexOf('tic-tac-toe')];
+        cards.push(`<div data-app="ttt">${wrapScope('board', boardMarkup)}${wrapScope('tic-tac-toe', tttMarkup)}</div>`);
+      } else {
+        cards.push(wrapScope(name, bodyParts[i]));
+      }
+    }
+    bodyContent = cards.join('\n');
   } else {
-    bodyHtml = (useScope ? names.map((n, i) => wrapScope(n, bodyParts[i])) : bodyParts).join('\n') + '\n' + scriptTags.join('\n');
+    const cards = [];
+    for (let i = 0; i < names.length; i++) {
+      const name = names[i];
+      if (name === 'tic-tac-toe' && hasTtt) continue;
+      if (name === 'board' && hasTtt) {
+        cards.push(`<div data-app="ttt">${bodyParts[i]}${bodyParts[names.indexOf('tic-tac-toe')]}</div>`);
+      } else {
+        cards.push(bodyParts[i]);
+      }
+    }
+    bodyContent = cards.join('\n');
   }
 
+  /* Scripts at top level at bottom of body, never inside containers */
+  const bodyHtml = bodyContent + (scriptTags.length ? '\n' + scriptTags.join('\n') : '');
+
   const designSystemLink = '<link rel="stylesheet" href="design-system.css" />';
-  const headWithLayout = designSystemLink + '\n  ' + componentStylesHtml + firstHead + (bodyHtml.includes('games-container') ? '\n  <style>' + LAYOUT_CSS + '</style>' : '');
+  const layoutLink = '\n  <link rel="stylesheet" href="layout.css" />';
+  const headWithLayout = designSystemLink + layoutLink + '\n  ' + componentStylesHtml + firstHead;
   const indexHtml =
     '<!DOCTYPE html>\n<html lang="en">\n<head>\n  ' +
     headWithLayout +
@@ -227,6 +187,8 @@ function buildComponents(componentsDir = DEFAULT_COMPONENTS_DIR, outputIndexPath
           bundle: true,
           format: 'iife',
           write: false,
+          sourcemap: true,
+          sourcesContent: true,
         });
         scriptContent = result.outputFiles[0].text;
         console.log(`Bundled ${baseName}/${baseName}.js for index`);
@@ -255,6 +217,12 @@ function buildComponents(componentsDir = DEFAULT_COMPONENTS_DIR, outputIndexPath
     if (fs.existsSync(designSystemSrc)) {
       fs.copyFileSync(designSystemSrc, designSystemDest);
       console.log('Copied design-system.css to dist/');
+    }
+    const layoutSrc = path.join(projectRoot, 'design-system', 'layout.css');
+    const layoutDest = path.join(distDir, 'layout.css');
+    if (fs.existsSync(layoutSrc)) {
+      fs.copyFileSync(layoutSrc, layoutDest);
+      console.log('Copied layout.css to dist/');
     }
   } else {
     const outDir = path.dirname(outputIndexPath);

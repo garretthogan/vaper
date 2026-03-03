@@ -1,4 +1,40 @@
-/* Focus ring drawn inside the canvas so it doesn't cause overflow or scrollbar */
+.asteroids-panel {
+  border: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--tui-gap);
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+#asteroids-canvas {
+  border: var(--tui-bw) solid var(--tui-line-strong);
+  background: var(--tui-bg);
+  flex-shrink: 0;
+  width: 280px;
+  height: 280px;
+}
+
+#asteroids-status {
+  margin: 0;
+  flex-shrink: 0;
+  height: 2.5em;
+  overflow: hidden;
+  line-height: 1.25;
+  display: flex;
+  align-items: center;
+}
+
+.asteroids-panel button {
+  flex-shrink: 0;
+  height: 2.25rem;
+}
+
 #asteroids-canvas:focus {
   outline: none;
 }

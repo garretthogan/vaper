@@ -25,6 +25,14 @@ const STORAGE_KEY = 'vaper-todo';
 
   function render() {
     listEl.innerHTML = '';
+    if (items.length === 0) {
+      const placeholder = document.createElement('li');
+      placeholder.className = 'todo-list-placeholder';
+      placeholder.setAttribute('aria-hidden', 'true');
+      placeholder.textContent = 'No items yet — add one above.';
+      listEl.appendChild(placeholder);
+      return;
+    }
     if (!templateEl || !templateEl.content) return;
     items.forEach((item) => {
       const li = templateEl.content.cloneNode(true);

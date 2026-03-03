@@ -8,6 +8,9 @@
     "dev": "node scripts/watch.js",
     "test": "node --test scripts/build-components.test.js"
   },
+  "dependencies": {
+    "three": "^0.170.0"
+  },
   "devDependencies": {
     "browser-sync": "^3.0.3",
     "chokidar": "^4.0.1",
