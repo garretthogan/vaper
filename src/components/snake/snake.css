@@ -1,0 +1,9 @@
+/* Focus ring drawn inside the canvas so it doesn't cause overflow or scrollbar */
+#snake-canvas:focus {
+  outline: none;
+}
+
+#snake-canvas:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 2px var(--tui-cyan);
+}

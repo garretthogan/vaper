@@ -1,0 +1,73 @@
+.movie-ranking-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--tui-gap);
+}
+
+.movie-ranking-panel form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--tui-gap);
+  align-items: center;
+}
+
+.movie-ranking-panel #movie-ranking-input {
+  flex: 1;
+  min-width: 120px;
+}
+
+.movie-ranking-panel #movie-ranking-rank {
+  width: 4rem;
+}
+
+.movie-ranking-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  counter-reset: movie-rank;
+}
+
+.movie-ranking-item {
+  display: flex;
+  align-items: center;
+  gap: var(--tui-gap);
+  padding: var(--tui-pad-1) var(--tui-pad-2);
+  border: var(--tui-bw) solid var(--tui-line);
+  margin-bottom: var(--tui-gap-sm);
+  cursor: grab;
+}
+
+.movie-ranking-item:active {
+  cursor: grabbing;
+}
+
+.movie-ranking-item.movie-ranking-dragging {
+  opacity: 0.6;
+}
+
+.movie-ranking-item.movie-ranking-drag-over {
+  border-color: var(--tui-cyan);
+  background: rgba(0, 212, 255, 0.08);
+}
+
+.movie-ranking-drag {
+  color: var(--tui-muted);
+  font-size: 0.9em;
+  user-select: none;
+}
+
+.movie-ranking-rank-badge {
+  flex-shrink: 0;
+  min-width: 2em;
+  font-weight: bold;
+  color: var(--tui-cyan);
+}
+
+.movie-ranking-item .movie-ranking-title {
+  flex: 1;
+  min-width: 0;
+}
+
+.movie-ranking-delete {
+  flex-shrink: 0;
+}

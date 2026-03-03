@@ -1,0 +1,19 @@
+{
+  "name": "vape",
+  "description": "the framework that you and your coding agents will love.",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/build-components.js",
+    "dev": "node scripts/watch.js",
+    "test": "node --test scripts/build-components.test.js"
+  },
+  "devDependencies": {
+    "browser-sync": "^3.0.3",
+    "chokidar": "^4.0.1",
+    "esbuild": "^0.24.0",
+    "postcss": "^8.4.49",
+    "postcss-prefix-selector": "^2.0.0",
+    "sass": "^1.81.0"
+  }
+}

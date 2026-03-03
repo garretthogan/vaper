@@ -1,0 +1,12 @@
+/* Scoped board styles: selectors are prefixed with [data-component="board"] */
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 4rem);
+  grid-template-rows: repeat(3, 4rem);
+  gap: var(--tui-gap-sm);
+  width: min-content;
+}
+.board button {
+  font-size: 1.5rem;
+  font-weight: bold;
+}

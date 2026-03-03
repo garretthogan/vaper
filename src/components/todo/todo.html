@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>To-do</title>
+</head>
+<body>
+  <div class="todo-panel">
+    <h3 id="todo-title">To-do</h3>
+    <template id="todo-item-template">
+      <li>
+        <input type="checkbox" class="todo-item-checkbox" aria-label="Toggle done" />
+        <label class="todo-item-label"></label>
+        <button type="button" class="todo-item-delete">Delete</button>
+      </li>
+    </template>
+    <ul id="todo-list" aria-label="To-do items"></ul>
+    <form id="todo-form">
+      <input type="text" id="todo-input" placeholder="New item" aria-label="New to-do item" />
+      <button type="submit" id="todo-add">Add</button>
+    </form>
+    <button type="button" id="todo-clear-completed">Clear completed</button>
+  </div>
+  <!-- inject -->
+</body>
+</html>

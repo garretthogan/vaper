@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Movie ranking</title>
+</head>
+<body>
+  <div class="movie-ranking-panel">
+    <h3 id="movie-ranking-title">Movie ranking</h3>
+    <form id="movie-ranking-form">
+      <input type="text" id="movie-ranking-input" placeholder="Movie title" aria-label="Movie title" />
+      <label for="movie-ranking-rank">Rank</label>
+      <input type="number" id="movie-ranking-rank" min="1" value="1" aria-label="Initial rank" />
+      <button type="submit" id="movie-ranking-add">Add</button>
+    </form>
+    <template id="movie-ranking-item-template">
+      <li class="movie-ranking-item" draggable="true">
+        <span class="movie-ranking-drag" aria-hidden="true">⋮⋮</span>
+        <span class="movie-ranking-rank-badge"></span>
+        <span class="movie-ranking-title"></span>
+        <button type="button" class="movie-ranking-delete">Delete</button>
+      </li>
+    </template>
+    <ol id="movie-ranking-list" aria-label="Ranked movies"></ol>
+  </div>
+  <!-- inject -->
+</body>
+</html>
